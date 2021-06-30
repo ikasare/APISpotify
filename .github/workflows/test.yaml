@@ -17,6 +17,7 @@ jobs:
           python -m pip install --upgrade pip pytest
           pip3 install requests
           pip3 install pandas
+          pip3 install spotipy
         
       - name: Test with unittest
         run: |
