@@ -1,0 +1,59 @@
+import requests
+import spotipy
+import pandas as pd
+import sqlalchemy
+from sqlalchemy import  create_engine
+
+CLIENT_ID = '73a956d832824facb9e966d05f16d603'
+CLIENT_SECRET = '576392b285274a69b51832ed5c5fa253'
+
+AUTH_URL = 'https://accounts.spotify.com/api/token'
+
+auth_response = requests.post(AUTH_URL, {
+    'grant_type': 'client_credentials',
+    'client_id': CLIENT_ID,
+    'client_secret': CLIENT_SECRET
+})
+
+print(auth_response.status_code)
+
+auth_response_data = auth_response.json()
+
+
+access_token = auth_response_data['access_token']
+
+headers = {'Authorization': 'Bearer {token}'.format(token=access_token)}
+
+BASE_URL = 'https://api.spotify.com/v1/'
+
+
+artist_id = input('Please enter an artist id: ')
+def gettingrequest():
+  r = requests.get(BASE_URL + 'artists/' + artist_id, headers=headers)
+  return r
+
+
+r = gettingrequest()
+
+#eg_id: 0k17h0D3J5VfsdmQ1iZtE9
+#01DTVE3KmoPogPZaOvMqO8
+
+#print(r.status_code)
+if r.status_code != 200:
+  print('invalid id')
+else:
+  info = r.json()
+  print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
+
+  store = {'name' : info['name'],
+        'popularity' : info['popularity']}
+
+  col_names = ['name', 'popularity']
+  df = pd.DataFrame(columns=col_names)
+  df.loc[len(df.index)] = [store['name'], store['popularity']]
+
+  engine = create_engine('mysql://root:codio@localhost/spotifyapi')
+  df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
+
+
+
