@@ -19,6 +19,7 @@ jobs:
           pip3 install pandas
           pip3 install spotipy
           pip3 install SQLAlchemy
+          pip3 install mysqlclient
         
       - name: Test with unittest
         run: |
