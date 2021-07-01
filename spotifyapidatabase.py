@@ -35,22 +35,22 @@ def gettingrequest():
 
 r = gettingrequest()
 
-#eg_id: 0k17h0D3J5VfsdmQ1iZtE9
-#01DTVE3KmoPogPZaOvMqO8
+eg_id: 0k17h0D3J5VfsdmQ1iZtE9
+01DTVE3KmoPogPZaOvMqO8
 
-#print(r.status_code)
-# if r.status_code != 200:
-#   print('invalid id')
-# else:
-#   info = r.json()
-#   print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
+print(r.status_code)
+if r.status_code != 200:
+  print('invalid id')
+else:
+  info = r.json()
+  print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
 
-#   store = {'name' : info['name'],
-#         'popularity' : info['popularity']}
+  store = {'name' : info['name'],
+        'popularity' : info['popularity']}
 
-#   col_names = ['name', 'popularity']
-#   df = pd.DataFrame(columns=col_names)
-#   df.loc[len(df.index)] = [store['name'], store['popularity']]
+  col_names = ['name', 'popularity']
+  df = pd.DataFrame(columns=col_names)
+  df.loc[len(df.index)] = [store['name'], store['popularity']]
 
 #   engine = create_engine('mysql://root:codio@localhost/spotifyapi')
 #   df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
