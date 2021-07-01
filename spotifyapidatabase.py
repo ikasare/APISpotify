@@ -27,7 +27,7 @@ headers = {'Authorization': 'Bearer {token}'.format(token=access_token)}
 BASE_URL = 'https://api.spotify.com/v1/'
 
 
-artist_id = input('Please enter an artist id: ')
+artist_id = 01DTVE3KmoPogPZaOvMqO8
 def gettingrequest():
   r = requests.get(BASE_URL + 'artists/' + artist_id, headers=headers)
   return r
