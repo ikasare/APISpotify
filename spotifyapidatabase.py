@@ -28,8 +28,8 @@ headers = {'Authorization': 'Bearer {token}'.format(token=access_token)}
 BASE_URL = 'https://api.spotify.com/v1/'
 
 musicians = {'Sia': '5WUlDfRSoLAfcVSX1WnrxN',
-             'Billie': '6qqNVTkY8uBg9cP3Jd7DAH', 
-             'Sark': '01DTVE3KmoPogPZaOvMqO8', 
+             'Billie': '6qqNVTkY8uBg9cP3Jd7DAH',
+             'Sark': '01DTVE3KmoPogPZaOvMqO8',
              'John': '0k17h0D3J5VfsdmQ1iZtE9'}
 
 print('Here are the artists: ')
