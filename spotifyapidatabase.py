@@ -27,7 +27,7 @@ headers = {'Authorization': 'Bearer {token}'.format(token=access_token)}
 
 BASE_URL = 'https://api.spotify.com/v1/'
 
-musicians = {'Sia': '5WUlDfRSoLAfcVSX1WnrxN', 
+musicians = {'Sia': '5WUlDfRSoLAfcVSX1WnrxN',
              'Billie': '6qqNVTkY8uBg9cP3Jd7DAH', 
              'Sark': '01DTVE3KmoPogPZaOvMqO8', 
              'John': '0k17h0D3J5VfsdmQ1iZtE9'}
@@ -40,36 +40,37 @@ artist_id = musicians[user]
 
 
 def gettingrequest():
-  r = requests.get(BASE_URL + 'artists/' + artist_id, headers=headers)
-  return r
+    r = requests.get(BASE_URL + 'artists/' + artist_id, headers=headers)
+    return r
+
 
 def createdb():
-  info = r.json()
-  print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
+    info = r.json()
+    print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
 
-  store = {'name': info['name'],
-        'popularity' : info['popularity']}
+    store = {'name': info['name'],
+             'popularity': info['popularity']}
 
-  col_names = ['name', 'popularity']
-  df = pd.DataFrame(columns=col_names)
-  df.loc[len(df.index)] = [store['name'], store['popularity']]
+    col_names = ['name', 'popularity']
+    df = pd.DataFrame(columns=col_names)
+    df.loc[len(df.index)] = [store['name'], store['popularity']]
 
-  engine = create_engine('mysql://root:codio@localhost/spotifyapi')
-  df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
+    engine = create_engine('mysql://root:codio@localhost/spotifyapi')
+    df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
 
 def savedb():
-  os.system("mysqldump -u root -pcodio spotifyapi > music.sql")
-  
+    os.system("mysqldump -u root -pcodio spotifyapi > music.sql")
+
 def loaddb():
-  os.system("mysql -u root -pcodiospotifyapi < music.sql")
+    os.system("mysql -u root -pcodiospotifyapi < music.sql")
   
 
 r = gettingrequest()
 
 if r.status_code != 200:
-  print('invalid id')
+    print('invalid id')
 else:
-  createdb()
+    createdb()
   
 savedb()
 loaddb()
