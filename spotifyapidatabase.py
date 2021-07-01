@@ -26,22 +26,22 @@ headers = {'Authorization': 'Bearer {token}'.format(token=access_token)}
 
 BASE_URL = 'https://api.spotify.com/v1/'
 
+musicians = {'Sia': '5WUlDfRSoLAfcVSX1WnrxN', 
+           'Billie': '6qqNVTkY8uBg9cP3Jd7DAH', 
+           'Sark': '01DTVE3KmoPogPZaOvMqO8', 
+           'John':'0k17h0D3J5VfsdmQ1iZtE9'}
 
-artist_id = '01DTVE3KmoPogPZaOvMqO8'
+print('Here are the artists: ')
+for m in musicians.keys():
+  print(m)
+user = input('Please enter an artist name: ')
+artist_id = musicians[user]
+
 def gettingrequest():
   r = requests.get(BASE_URL + 'artists/' + artist_id, headers=headers)
   return r
 
-
-r = gettingrequest()
-
-eg_id: 0k17h0D3J5VfsdmQ1iZtE9
-01DTVE3KmoPogPZaOvMqO8
-
-print(r.status_code)
-if r.status_code != 200:
-  print('invalid id')
-else:
+def createdb():
   info = r.json()
   print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
 
@@ -52,8 +52,21 @@ else:
   df = pd.DataFrame(columns=col_names)
   df.loc[len(df.index)] = [store['name'], store['popularity']]
 
-#   engine = create_engine('mysql://root:codio@localhost/spotifyapi')
-#   df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
+  engine = create_engine('mysql://root:codio@localhost/spotifyapi')
+  df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
+  
+
+
+r = gettingrequest()
+
+if r.status_code != 200:
+  print('invalid id')
+else:
+  createdb()
+
+
+
+
 
 
 
