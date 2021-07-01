@@ -52,8 +52,8 @@ else:
   df = pd.DataFrame(columns=col_names)
   df.loc[len(df.index)] = [store['name'], store['popularity']]
 
-  engine = create_engine('mysql://root:codio@localhost/spotifyapi')
-  df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
+  #engine = create_engine('mysql://root:codio@localhost/spotifyapi')
+  #df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
 
 
 
