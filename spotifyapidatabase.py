@@ -58,12 +58,14 @@ def createdb():
     engine = create_engine('mysql://root:codio@localhost/spotifyapi')
     df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
 
+
 def savedb():
     os.system("mysqldump -u root -pcodio spotifyapi > music.sql")
 
+
 def loaddb():
     os.system("mysql -u root -pcodiospotifyapi < music.sql")
-  
+
 
 r = gettingrequest()
 
@@ -71,6 +73,6 @@ if r.status_code != 200:
     print('invalid id')
 else:
     createdb()
-  
+
 savedb()
 loaddb()
