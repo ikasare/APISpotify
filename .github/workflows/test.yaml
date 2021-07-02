@@ -20,7 +20,20 @@ jobs:
           pip3 install spotipy
           pip3 install SQLAlchemy
           pip3 install mysqlclient
+          pip3 install matplotlib
+          pip3 install coverage
         
       - name: Test with unittest
         run: |
           python3 -m unittest unittest testing.py
+          
+      - name: Check code coverage                        
+          python3 -m coverage run -m unittest test.py
+          python3 -m coverage report
+          python3 -m coverage html
+          
+      - name: Archive code coverage HTML report
+        uses: actions/upload-artifact@v2
+        with:
+           name: code-coverage-report
+           path: htmlcov
