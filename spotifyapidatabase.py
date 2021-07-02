@@ -38,12 +38,13 @@ def gettingrequest():
     col_names = ['name', 'popularity']
     df = pd.DataFrame(columns=col_names)
     for name in musicians:
-        res = requests.get(BASE_URL + 'artists/' + musicians[name], headers=headers)
+        res = requests.get(BASE_URL + 'artists/' + musicians[name], 
+                           headers=headers)
         r = res.json()
         store = {'name': r['name'],
                  'popularity': r['popularity']}
         df.loc[len(df.index)] = [store['name'], store['popularity']]
-        
+
     return df
 
 
@@ -58,9 +59,9 @@ def savedb():
 
 
 def loaddb():
-    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS '+ 'spotifyapi' + ';"')
+    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' + 'spotifyapi' + ';"')
     os.system("mysql -u root -pcodio spotifyapi < music.sql")
-    
+
 
 def gettingdataset():
     engine = create_engine('mysql://root:codio@localhost/spotifyapi')
@@ -75,8 +76,8 @@ def barchart(dataframe, barvalue):
     plt.title('Artiste and How Popular They Are')
     plt.xlabel('Artiste')
     plt.ylabel('Popularity')
-    plt.show()    
-    
+    plt.show()
+
 
 if __name__ == '__main__':
     createdb()
