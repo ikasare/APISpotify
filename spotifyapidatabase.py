@@ -38,7 +38,7 @@ def gettingrequest():
     col_names = ['name', 'popularity']
     df = pd.DataFrame(columns=col_names)
     for name in musicians:
-        res = requests.get(BASE_URL + 'artists/' + musicians[name], 
+        res = requests.get(BASE_URL + 'artists/' + musicians[name],
                            headers=headers)
         r = res.json()
         store = {'name': r['name'],
@@ -59,7 +59,8 @@ def savedb():
 
 
 def loaddb():
-    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' + 'spotifyapi' + ';"')
+    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' +
+              'spotifyapi' + ';"')
     os.system("mysql -u root -pcodio spotifyapi < music.sql")
 
 
