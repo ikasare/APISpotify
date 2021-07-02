@@ -3,6 +3,7 @@ import requests
 import spotipy
 import pandas as pd
 import sqlalchemy
+import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 
 CLIENT_ID = '73a956d832824facb9e966d05f16d603'
@@ -30,31 +31,24 @@ BASE_URL = 'https://api.spotify.com/v1/'
 musicians = {'Sia': '5WUlDfRSoLAfcVSX1WnrxN',
              'Billie': '6qqNVTkY8uBg9cP3Jd7DAH',
              'Sark': '01DTVE3KmoPogPZaOvMqO8',
-             'John': '0k17h0D3J5VfsdmQ1iZtE9'}
-
-print('Here are the artists: ')
-for m in musicians.keys():
-    print(m)
-user = input('Please enter an artist name: ')
-artist_id = musicians[user]
+             'Pink Floyd': '0k17h0D3J5VfsdmQ1iZtE9'}
 
 
 def gettingrequest():
-    r = requests.get(BASE_URL + 'artists/' + artist_id, headers=headers)
-    return r
+    col_names = ['name', 'popularity']
+    df = pd.DataFrame(columns=col_names)
+    for name in musicians:
+        res = requests.get(BASE_URL + 'artists/' + musicians[name], headers=headers)
+        r = res.json()
+        store = {'name': r['name'],
+                 'popularity': r['popularity']}
+        df.loc[len(df.index)] = [store['name'], store['popularity']]
+        
+    return df
 
 
 def createdb():
-    info = r.json()
-    print('artist name: ' + info['name'] + '. Genres: ', info['genres'])
-
-    store = {'name': info['name'],
-             'popularity': info['popularity']}
-
-    col_names = ['name', 'popularity']
-    df = pd.DataFrame(columns=col_names)
-    df.loc[len(df.index)] = [store['name'], store['popularity']]
-
+    df = gettingrequest()
     engine = create_engine('mysql://root:codio@localhost/spotifyapi')
     df.to_sql('popularity_table', con=engine, if_exists='replace', index=False)
 
@@ -64,15 +58,27 @@ def savedb():
 
 
 def loaddb():
-    os.system("mysql -u root -pcodiospotifyapi < music.sql")
+    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS '+ 'spotifyapi' + ';"')
+    os.system("mysql -u root -pcodio spotifyapi < music.sql")
+    
+
+def gettingdataset():
+    engine = create_engine('mysql://root:codio@localhost/spotifyapi')
+    loaddb()
+    df = pd.read_sql_table('popularity_table', con=engine)
+    return df
 
 
-r = gettingrequest()
+def barchart(dataframe, barvalue):
+    colors = ['red', 'orange', 'yellow', 'green']
+    plt.bar(dataframe, barvalue, color=colors)
+    plt.title('Artiste and How Popular They Are')
+    plt.xlabel('Artiste')
+    plt.ylabel('Popularity')
+    plt.show()    
+    
 
-if r.status_code != 200:
-    print('invalid id')
-else:
+if __name__ == '__main__':
     createdb()
-
-savedb()
-loaddb()
+    savedb()
+    barchart(gettingdataset().name, gettingdataset().popularity)

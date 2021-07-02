@@ -34,7 +34,7 @@ CREATE TABLE `popularity_table` (
 
 LOCK TABLES `popularity_table` WRITE;
 /*!40000 ALTER TABLE `popularity_table` DISABLE KEYS */;
-INSERT INTO `popularity_table` VALUES ('Sarkodie',55);
+INSERT INTO `popularity_table` VALUES ('Sia',89),('Billie Eilish',93),('Sarkodie',55),('Pink Floyd',83);
 /*!40000 ALTER TABLE `popularity_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-01 20:20:23
+-- Dump completed on 2021-07-02 17:10:09
